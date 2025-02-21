@@ -10,7 +10,7 @@ function App() {
   const [isGameCompleted, setIsGameCompleted] = useState(false);
   const arr = ["no win", "win", "bad", "good", "unlucky", "lucky"];
   const server_dev_url = "http://localhost:3000/";
-  const server_prod_url = "";
+  const server_prod_url = "https://spinner-server.vercel.app/";
   const server_url = server_prod_url;
 
   useEffect(() => {
