@@ -14,7 +14,7 @@ function App() {
   const server_url = server_prod_url;
 
   useEffect(() => {
-    fetch(`${server_url}users`)
+    fetch(`${server_url}check_user`)
       .then((response) => response.json())
       .then((data) => {
         const fpPromise = FingerprintJS.load();
@@ -23,7 +23,8 @@ function App() {
           .then((response) => {
             const fingerprint = response.visitorId;
             const uid = uuidv4();
-            if (fingerprint == data[0].fingerprint || uid == data[0].uid) {
+            console.log(data);
+            if (data.exists) {
               console.log("Game already completed");
               setIsGameCompleted(true);
             }
