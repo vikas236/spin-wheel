@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import spin_wheel from "./assets/spin-wheel.png";
 import { v4 as uuidv4 } from "uuid";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
+
 function App() {
   const [result, setResult] = useState("");
   const [status, setStatus] = useState("");
@@ -14,27 +15,34 @@ function App() {
   const server_url = server_prod_url;
 
   useEffect(() => {
-    fetch(`${server_url}check_user`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+    const fetchData = async () => {
+      try {
         const fpPromise = FingerprintJS.load();
-        fpPromise
-          .then((fp) => fp.get())
-          .then((response) => {
-            const fingerprint = response.visitorId;
-            const uid = uuidv4();
-            if (data.exists) {
-              console.log("Game already completed");
-              setIsGameCompleted(true);
-            }
-          })
-          .catch((error) => {
-            console.error("Error getting device details:", error);
-          });
-      })
-      .catch((error) => console.error("Error:", error));
-  }, []);
+        const fp = await fpPromise;
+        const response = await fp.get();
+        const fingerprint = response.visitorId;
+        const uid = uuidv4();
+        const res = await fetch(`${server_url}check_user`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fingerprint: fingerprint,
+            uid: uid,
+          }),
+        });
+        const data = await res.json();
+        if (data.exists) {
+          console.log("Game already completed");
+          setIsGameCompleted(true);
+        }
+      } catch (error) {
+        console.error("Error getting device details:", error);
+      }
+    };
+    fetchData();
+  }, [decision, server_url]);
 
   useEffect(() => {
     if (result) {
@@ -57,22 +65,28 @@ function App() {
 
   useEffect(() => {
     if (deviceInfo.fingerprint || deviceInfo.uid) {
-      fetch(`${server_url}add_user`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fingerprint: deviceInfo.fingerprint,
-          uid: deviceInfo.uid,
-          status: decision,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => console.log("user status updated"))
-        .catch((error) => console.error("Error:", error));
+      const postData = async () => {
+        try {
+          const res = await fetch(`${server_url}add_user`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              fingerprint: deviceInfo.fingerprint,
+              uid: deviceInfo.uid,
+              status: decision,
+            }),
+          });
+          const data = await res.json();
+          console.log("user status updated");
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+      postData();
     }
-  });
+  }, [deviceInfo, decision, server_url]);
 
   function spinWheel(e) {
     e.currentTarget.style.display = "none";
@@ -98,20 +112,22 @@ function App() {
   }
 
   function getDeviceDetails() {
-    const fpPromise = FingerprintJS.load();
-    fpPromise
-      .then((fp) => fp.get())
-      .then((response) => {
+    const fetchDeviceDetails = async () => {
+      try {
+        const fpPromise = FingerprintJS.load();
+        const fp = await fpPromise;
+        const response = await fp.get();
         const fingerprint = response.visitorId;
         const uid = uuidv4();
         setDeviceInfo({
           fingerprint,
           uid,
         });
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error getting device details:", error);
-      });
+      }
+    };
+    fetchDeviceDetails();
   }
 
   return (
