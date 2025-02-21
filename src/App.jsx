@@ -161,7 +161,7 @@ function App() {
                 className="absolute w-[calc(100dvw-20px)] h-[100px] bg-[#4285F4] left-0 top-0 text-white active:bg-white transition-all rounded-3xl flex justify-center items-center"
                 target="_blank"
               >
-                Add a Review to Unlock Spin
+                Add a Review and come back for a spin
               </a>
             </button>
             <button
