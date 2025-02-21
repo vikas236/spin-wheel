@@ -17,13 +17,13 @@ function App() {
     fetch(`${server_url}check_user`)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         const fpPromise = FingerprintJS.load();
         fpPromise
           .then((fp) => fp.get())
           .then((response) => {
             const fingerprint = response.visitorId;
             const uid = uuidv4();
-            console.log(data);
             if (data.exists) {
               console.log("Game already completed");
               setIsGameCompleted(true);
