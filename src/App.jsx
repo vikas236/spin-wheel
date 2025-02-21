@@ -158,7 +158,7 @@ function App() {
             >
               <a
                 href="https://search.google.com/local/writereview?placeid=ChIJGXIeuniTyzsRo_AgmP6zxZ0"
-                className="absolute w-[calc(100dvw-20px)] h-[100px] bg-[#4285F4] left-0 top-0 text-white active:bg-white transition-all rounded-3xl flex justify-center items-center"
+                className="absolute w-[calc(100dvw-20px)] h-[100px] bg-[#4285F4] left-0 top-0 text-white active:bg-white transition-all rounded-3xl flex justify-center items-center px-10"
                 target="_blank"
               >
                 Add a Review and come back for a spin
