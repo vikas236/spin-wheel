@@ -9,9 +9,12 @@ function App() {
   const [deviceInfo, setDeviceInfo] = useState({ fingerprint: "", uid: "" });
   const [isGameCompleted, setIsGameCompleted] = useState(false);
   const arr = ["no win", "win", "bad", "good", "unlucky", "lucky"];
+  const server_dev_url = "http://localhost:3000/";
+  const server_prod_url = "";
+  const server_url = server_prod_url;
 
   useEffect(() => {
-    fetch("http://localhost:3000/users")
+    fetch(`${server_url}users`)
       .then((response) => response.json())
       .then((data) => {
         const fpPromise = FingerprintJS.load();
@@ -53,7 +56,7 @@ function App() {
 
   useEffect(() => {
     if (deviceInfo.fingerprint || deviceInfo.uid) {
-      fetch("http://localhost:3000/add_user", {
+      fetch(`${server_url}add_user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
