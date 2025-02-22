@@ -151,21 +151,21 @@ function App() {
           </div>
           <div className="relative mb-2">
             <button
-              className="absolute w-[calc(100dvw-20px)] h-[200px] bg-[#4285F4] left-0 top-0 text-white active:bg-white transition-all rounded-3xl text-lg"
+              className="absolute w-[calc(100dvw-20px)] h-[100px] bg-[#4285F4] left-0 top-0 text-white active:bg-white transition-all rounded-3xl text-lg"
               onClick={(e) => {
                 e.currentTarget.remove();
               }}
             >
               <a
                 href="https://search.google.com/local/writereview?placeid=ChIJGXIeuniTyzsRo_AgmP6zxZ0"
-                className="absolute w-[calc(100dvw-20px)] h-full bg-[#4285F4] left-0 top-0 text-white active:bg-white transition-all rounded-3xl flex justify-center items-center px-10"
+                className="absolute w-[calc(100dvw-20px)] h-full bg-[#4285F4] left-0 top-0 text-white active:bg-white transition-all rounded-3xl flex justify-center items-center px-10 "
                 target="_blank"
               >
-                Add a Review and come back for a spin
+                come back for a spin
               </a>
             </button>
             <button
-              className="spin-button w-[calc(100dvw-20px)] h-[200px] px-7 py-1 active:bg-white rounded-3xl bg-[#031926]
+              className="spin-button w-[calc(100dvw-20px)] h-[100px] px-7 py-1 active:bg-white rounded-3xl bg-[#031926]
            transition-all text-white active:text-[#031926] text-lg cursor-pointer mb-[10px]"
               onClick={spinWheel}
             >
